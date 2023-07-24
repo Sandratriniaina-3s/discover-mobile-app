@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/site_item"
+        android:icon="@drawable/round_site_24"
+        android:title="@string/site"/>
+    <item
+        android:id="@+id/notification_item"
+        android:icon="@drawable/round_notification_24"
+        android:title="@string/notification"/>
+    <item
+        android:id="@+id/setting_item"
+        android:icon="@drawable/round_setting_24"
+        android:title="@string/setting"/>
+</menu>
