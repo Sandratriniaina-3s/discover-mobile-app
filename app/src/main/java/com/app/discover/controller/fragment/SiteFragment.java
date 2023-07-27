@@ -2,13 +2,20 @@ package com.app.discover.controller.fragment;
 
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ListView;
 
 import com.app.discover.R;
+import com.app.discover.model.Site;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -63,5 +70,16 @@ public class SiteFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_site, container, false);
         return view;
+    }
+
+    @Override
+    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        ArrayList<Site> sites = null; //replace by service to get sites
+        if(sites !=null){
+            ListView sitesView = view.findViewById(R.id.cardList);
+            CardListAdapter cardList = new CardListAdapter(this.getContext(),sites);
+            sitesView.setAdapter(cardList);
+        }
     }
 }
