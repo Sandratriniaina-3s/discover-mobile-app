@@ -1,7 +1,6 @@
 package com.app.discover.controller.activity;
 
 import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
@@ -9,7 +8,6 @@ import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
-
 import com.app.discover.R;
 import com.google.android.material.snackbar.Snackbar;
 
