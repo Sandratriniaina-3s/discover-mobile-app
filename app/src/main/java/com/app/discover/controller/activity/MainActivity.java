@@ -26,7 +26,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        initialize();
+        init();
 
         launchFragment(new SiteFragment(), "Sites");
 
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private void initialize(){
+    private void init(){
         bottomNavigation = findViewById(R.id.bottom_navigation);
         activeFragment = findViewById(R.id.active_fragment_name);
     }
