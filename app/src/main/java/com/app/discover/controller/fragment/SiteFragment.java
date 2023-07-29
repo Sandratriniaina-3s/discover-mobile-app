@@ -1,18 +1,30 @@
 package com.app.discover.controller.fragment;
 
+import android.content.Context;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
 
+import com.android.volley.VolleyError;
 import com.app.discover.R;
+import com.app.discover.adapter.SiteListAdapter;
+import com.app.discover.dal.interfaces.UserInterface;
+import com.app.discover.dal.service.SiteService;
 import com.app.discover.model.Site;
+import com.google.gson.Gson;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -32,6 +44,14 @@ public class SiteFragment extends Fragment {
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
+    private SiteService siteService;
+    private Site[] sites;
+    private RecyclerView recyclerView;
+
+    private Context context;
+    private SiteListAdapter siteListAdapter;
+    private String url;
+    private Gson gson;
 
     public SiteFragment() {
         // Required empty public constructor
@@ -69,17 +89,48 @@ public class SiteFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_site, container, false);
+
+        init(view);
+        siteService.getAllSite(url, new UserInterface() {
+            @Override
+            public void handleObjectResponse(JSONObject jsonObject) {
+
+            }
+
+            @Override
+            public void handleArrayResponse(JSONArray jsonArray) {
+                sites = gson.fromJson(jsonArray.toString(), Site[].class);
+                updateRecyclerView(context, sites);
+            }
+
+            @Override
+            public void handleError(VolleyError volleyError) {
+
+            }
+        });
+
         return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        ArrayList<Site> sites = null; //replace by service to get sites
-        if(sites !=null){
-            ListView sitesView = view.findViewById(R.id.cardList);
-            CardListAdapter cardList = new CardListAdapter(this.getContext(),sites);
-            sitesView.setAdapter(cardList);
-        }
     }
+
+    private void init(View view){
+        sites = null;
+        context = view.getContext();
+        siteService = new SiteService(context);
+        recyclerView = view.findViewById(R.id.site_recycler_view);
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        url = "http://192.168.56.1:8000/sites";
+        gson = new Gson();
+        siteListAdapter = null;
+    }
+
+    private void updateRecyclerView(Context context, Site[] sites){
+        siteListAdapter = new SiteListAdapter(context, sites);
+        recyclerView.setAdapter(siteListAdapter);
+    }
+
 }
