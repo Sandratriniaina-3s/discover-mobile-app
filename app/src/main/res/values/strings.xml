@@ -61,4 +61,10 @@
     <string name="title_activity_splash_screen">SplashScreenActivity</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="site_name">Site name</string>
+    <string name="site_location">Site location</string>
+    <string name="site_description">Site description</string>
+    <string name="button_action">Action</string>
+    <string name="imageview_description">Imageview description</string>
+    <string name="search_bar_holder">Rechercher ...</string>
 </resources>
