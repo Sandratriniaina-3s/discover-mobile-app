@@ -1,6 +1,7 @@
 package com.app.discover.adapter;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,11 +14,14 @@ import com.app.discover.R;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.app.discover.model.Site;
+import com.squareup.picasso.Picasso;
 
 public class SiteListAdapter extends RecyclerView.Adapter<SiteListAdapter.ViewHolder> {
 
     private Context context;
     private Site[] sites;
+
+    private String apiUrl = "http://192.168.56.1:8000";
 
     public SiteListAdapter(Context context, Site[] sites) {
         this.context = context;
@@ -38,13 +42,16 @@ public class SiteListAdapter extends RecyclerView.Adapter<SiteListAdapter.ViewHo
         holder.txSiteName.setText(site.getName());
         holder.txSiteLocation.setText(site.getLocation());
         holder.txSiteDescription.setText(site.getDescription());
+        Log.d("----------------------",apiUrl+site.getThumbnail());
+        if(site.getThumbnail() != null){
+            Picasso.get().load(apiUrl+site.getThumbnail()).into(holder.imgSite);
+        }
         holder.btnAction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
 
             }
         });
-        // SITE PICTURE
 
     }
 

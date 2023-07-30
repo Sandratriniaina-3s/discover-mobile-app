@@ -5,6 +5,26 @@ public class Site {
     private String location;
     private String description;
 
+    private String thumbnail;
+
+    public String getThumbnail() {
+        return thumbnail;
+    }
+
+    public void setThumbnail(String thumbnail) {
+        this.thumbnail = thumbnail;
+    }
+
+    public String getMedias() {
+        return medias;
+    }
+
+    public void setMedias(String medias) {
+        this.medias = medias;
+    }
+
+    private String medias;
+
     public String getName() {
         return name;
     }

@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.app.Application;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -15,6 +16,7 @@ import com.app.discover.controller.fragment.NotificationFragment;
 import com.app.discover.controller.fragment.SettingFragment;
 import com.app.discover.controller.fragment.SiteFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.squareup.picasso.Picasso;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -29,6 +31,9 @@ public class MainActivity extends AppCompatActivity {
         init();
 
         launchFragment(new SiteFragment(), "Sites");
+
+        // Initialize Picasso with the application context
+        Picasso.setSingletonInstance(new Picasso.Builder(this).build());
 
         bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
