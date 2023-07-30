@@ -1,6 +1,9 @@
 package com.app.discover.adapter;
 
+import static androidx.core.content.ContextCompat.startActivity;
+
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -13,6 +16,8 @@ import com.app.discover.R;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.app.discover.controller.activity.DetailActivity;
 import com.app.discover.model.Site;
 import com.squareup.picasso.Picasso;
 
@@ -20,7 +25,6 @@ public class SiteListAdapter extends RecyclerView.Adapter<SiteListAdapter.ViewHo
 
     private Context context;
     private Site[] sites;
-
     private String apiUrl = "http://192.168.56.1:8000";
 
     public SiteListAdapter(Context context, Site[] sites) {
@@ -42,13 +46,17 @@ public class SiteListAdapter extends RecyclerView.Adapter<SiteListAdapter.ViewHo
         holder.txSiteName.setText(site.getName());
         holder.txSiteLocation.setText(site.getLocation());
         holder.txSiteDescription.setText(site.getDescription());
-        if(site.getThumbnail() != null){
+        if(site.getThumbnail() == null){
+            holder.imgSite.setVisibility(View.GONE);
+        }
+        else{
             Picasso.get().load(apiUrl+site.getThumbnail()).into(holder.imgSite);
         }
         holder.btnAction.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                Intent intent = new Intent(context, DetailActivity.class);
+                context.startActivity(intent);
             }
         });
 

@@ -51,7 +51,6 @@ public class SiteFragment extends Fragment {
     private SiteService siteService;
     private Site[] sites;
     private RecyclerView recyclerView;
-
     private Context context;
     private SiteListAdapter siteListAdapter;
     private String url;

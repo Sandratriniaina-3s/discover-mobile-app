@@ -67,4 +67,11 @@
     <string name="button_action">Action</string>
     <string name="imageview_description">Imageview description</string>
     <string name="search_bar_holder">Rechercher ...</string>
+    <string name="title_activity_detail">DetailActivity</string>
+    <string name="tab_photo">Photo</string>
+    <string name="tab_video">Video</string>
+    <string name="tab_comment">Commentaire</string>
+    <string name="photo_fragment_text">PHOTO FRAGEMENT</string>
+    <string name="video_fragment_text">VIDEO FRAGEMENT</string>
+    <string name="comment_fragment_text">COMMENT FRAGEMENT</string>
 </resources>

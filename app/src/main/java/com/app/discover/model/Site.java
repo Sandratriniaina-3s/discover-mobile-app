@@ -4,8 +4,8 @@ public class Site {
     private String name;
     private String location;
     private String description;
-
     private String thumbnail;
+    private String medias;
 
     public String getThumbnail() {
         return thumbnail;
@@ -22,8 +22,6 @@ public class Site {
     public void setMedias(String medias) {
         this.medias = medias;
     }
-
-    private String medias;
 
     public String getName() {
         return name;
@@ -48,4 +46,5 @@ public class Site {
     public void setDescription(String description) {
         this.description = description;
     }
+
 }
