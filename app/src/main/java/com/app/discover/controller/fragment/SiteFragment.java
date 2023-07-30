@@ -9,11 +9,15 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.app.discover.R;
@@ -91,23 +95,32 @@ public class SiteFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_site, container, false);
 
         init(view);
-        siteService.getAllSite(url, new UserInterface() {
+
+        TextView searchBar = view.findViewById(R.id.searchEditText);
+
+        searchBar.addTextChangedListener(new TextWatcher() {
+            private final Handler handler = new Handler();
+            private Runnable runnable;
             @Override
-            public void handleObjectResponse(JSONObject jsonObject) {
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
 
             }
 
             @Override
-            public void handleArrayResponse(JSONArray jsonArray) {
-                sites = gson.fromJson(jsonArray.toString(), Site[].class);
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if(runnable!=null){
+                    handler.removeCallbacks(runnable);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                handler.postDelayed(()->getSites(url,editable.toString()),300);
                 updateRecyclerView(context, sites);
             }
-
-            @Override
-            public void handleError(VolleyError volleyError) {
-
-            }
         });
+
+        getSites(url,null);
 
         return view;
     }
@@ -131,6 +144,26 @@ public class SiteFragment extends Fragment {
     private void updateRecyclerView(Context context, Site[] sites){
         siteListAdapter = new SiteListAdapter(context, sites);
         recyclerView.setAdapter(siteListAdapter);
+    }
+
+    private void getSites(String url,String search){
+        siteService.getAllSite(url, search,new UserInterface() {
+            @Override
+            public void handleObjectResponse(JSONObject jsonObject) {
+
+            }
+
+            @Override
+            public void handleArrayResponse(JSONArray jsonArray) {
+                sites = gson.fromJson(jsonArray.toString(), Site[].class);
+                updateRecyclerView(context, sites);
+            }
+
+            @Override
+            public void handleError(VolleyError volleyError) {
+
+            }
+        });
     }
 
 }

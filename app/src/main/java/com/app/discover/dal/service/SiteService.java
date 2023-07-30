@@ -1,6 +1,7 @@
 package com.app.discover.dal.service;
 
 import android.content.Context;
+import android.util.Log;
 
 import com.android.volley.Request;
 import com.android.volley.Response;
@@ -20,10 +21,14 @@ public class SiteService {
         this.context = context;
     }
 
-    public void getAllSite(String url, final UserInterface callback){
+    public void getAllSite(String url, String search, UserInterface callback){
+        String reqUrl = url;
+        if(search != null){
+            reqUrl+="?search="+search;
+        }
         JsonArrayRequest jsonArrayRequest = new JsonArrayRequest(
                 Request.Method.GET,
-                url,
+                reqUrl,
                 null,
                 new Response.Listener<JSONArray>() {
                     @Override

@@ -42,7 +42,6 @@ public class SiteListAdapter extends RecyclerView.Adapter<SiteListAdapter.ViewHo
         holder.txSiteName.setText(site.getName());
         holder.txSiteLocation.setText(site.getLocation());
         holder.txSiteDescription.setText(site.getDescription());
-        Log.d("----------------------",apiUrl+site.getThumbnail());
         if(site.getThumbnail() != null){
             Picasso.get().load(apiUrl+site.getThumbnail()).into(holder.imgSite);
         }
