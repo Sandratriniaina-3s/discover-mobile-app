@@ -7,6 +7,11 @@ public class Site {
     private String thumbnail;
     private String medias;
 
+    private String _id;
+
+    public String get_id() {
+        return _id;
+    }
     public String getThumbnail() {
         return thumbnail;
     }

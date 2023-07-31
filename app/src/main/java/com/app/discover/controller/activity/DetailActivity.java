@@ -5,6 +5,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 
@@ -12,17 +13,21 @@ import com.app.discover.R;
 import com.app.discover.controller.fragment.CommentFragment;
 import com.app.discover.controller.fragment.PhotoFragment;
 import com.app.discover.controller.fragment.VideoFragment;
+import com.app.discover.model.Site;
 import com.google.android.material.tabs.TabLayout;
 
 public class DetailActivity extends AppCompatActivity {
 
     private TabLayout tabLayout;
 
+    public static String siteId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detail);
-
+        Intent i = getIntent();
+        siteId = i.getStringExtra("siteId");
         init();
 
         launchFragment(new PhotoFragment());

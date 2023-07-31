@@ -15,6 +15,7 @@ import android.widget.TextView;
 import com.app.discover.R;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ComponentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.discover.controller.activity.DetailActivity;
@@ -56,6 +57,7 @@ public class SiteListAdapter extends RecyclerView.Adapter<SiteListAdapter.ViewHo
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(context, DetailActivity.class);
+                intent.putExtra("siteId",site.get_id());
                 context.startActivity(intent);
             }
         });
