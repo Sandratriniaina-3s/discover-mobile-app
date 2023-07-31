@@ -22,6 +22,7 @@ import android.widget.TextView;
 import com.android.volley.VolleyError;
 import com.app.discover.R;
 import com.app.discover.adapter.SiteListAdapter;
+import com.app.discover.dal.interfaces.SiteInterface;
 import com.app.discover.dal.interfaces.UserInterface;
 import com.app.discover.dal.service.SiteService;
 import com.app.discover.model.Site;
@@ -146,7 +147,7 @@ public class SiteFragment extends Fragment {
     }
 
     private void getSites(String url,String search){
-        siteService.getAllSite(url, search,new UserInterface() {
+        siteService.getAllSite(url, search,new SiteInterface() {
             @Override
             public void handleObjectResponse(JSONObject jsonObject) {
 
