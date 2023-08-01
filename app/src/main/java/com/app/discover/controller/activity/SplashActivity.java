@@ -7,14 +7,17 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import com.app.discover.R;
+import com.app.discover.controller.DataManager;
 import com.google.android.material.snackbar.Snackbar;
 
 public class SplashActivity extends AppCompatActivity {
 
     private static final int SPLASH_DELAY = 3000;
     private Context context;
+    private DataManager dataManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,14 +25,20 @@ public class SplashActivity extends AppCompatActivity {
         setContentView(R.layout.activity_splash);
 
         context = this;
+        dataManager = DataManager.getInstance(context);
 
         if (isNetworkAvailable()) {
             new Handler().postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    Intent intent = new Intent(context, LoginActivity.class);
-                    startActivity(intent);
-                    finish();
+
+                    if(dataManager.getSetting() == null){
+                        startNewActivity(LoginActivity.class);
+                    }
+                    else {
+                        startNewActivity(MainActivity.class);
+                    }
+
                 }
             }, SPLASH_DELAY);
         } else {
@@ -51,4 +60,11 @@ public class SplashActivity extends AppCompatActivity {
         }
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
+
+    private void startNewActivity(Class activity){
+        Intent intent = new Intent(context, activity);
+        startActivity(intent);
+        finish();
+    }
+
 }

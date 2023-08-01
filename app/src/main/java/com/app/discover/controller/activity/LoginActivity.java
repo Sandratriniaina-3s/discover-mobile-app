@@ -6,12 +6,15 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import com.android.volley.VolleyError;
 import com.app.discover.R;
+import com.app.discover.controller.DataManager;
 import com.app.discover.dal.interfaces.UserInterface;
 import com.app.discover.dal.service.UserService;
+import com.app.discover.model.Information;
 import com.app.discover.model.User;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
@@ -26,10 +29,12 @@ public class LoginActivity extends AppCompatActivity {
     private TextInputEditText txEmail, txPassword;
     private Context context;
     private UserService userService;
-    private User user, response;
+    private User user;
+    private Information response;
     private Gson gson;
     private JSONObject jsonObject;
     private String url;
+    private DataManager dataManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,39 +43,7 @@ public class LoginActivity extends AppCompatActivity {
 
         init();
 
-        txEmail.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                user.setEmail(String.valueOf(txEmail.getText()));
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
-
-        txPassword.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
-            }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                user.setPassword(String.valueOf(txPassword.getText()));
-            }
-
-            @Override
-            public void afterTextChanged(Editable editable) {
-
-            }
-        });
+        addAllValueToObject();
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -105,6 +78,7 @@ public class LoginActivity extends AppCompatActivity {
         jsonObject = null;
         response = null;
         url = "http://192.168.56.1:8000/users/login";
+        dataManager = DataManager.getInstance(context);
     }
     private Boolean isInputDataEmpty(TextInputEditText textInputEditText){
 
@@ -133,8 +107,8 @@ public class LoginActivity extends AppCompatActivity {
         userService.addAndGetUser(url, jsonObject, new UserInterface() {
             @Override
             public void handleObjectResponse(JSONObject jsonObject) {
-                response = gson.fromJson(jsonObject.toString(), User.class);
-                /* SAVE DATA */
+                response = gson.fromJson(jsonObject.toString(), Information.class);
+                dataManager.saveSetting(response, context);
                 startNewActivity(MainActivity.class);
             }
 
@@ -150,6 +124,41 @@ public class LoginActivity extends AppCompatActivity {
 
         });
 
+    }
+    private void addAllValueToObject(){
+        txEmail.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                user.setEmail(String.valueOf(txEmail.getText()));
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+        txPassword.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                user.setPassword(String.valueOf(txPassword.getText()));
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
     }
 
 }

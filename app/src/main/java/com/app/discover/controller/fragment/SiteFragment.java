@@ -12,27 +12,21 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ListView;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.app.discover.R;
 import com.app.discover.adapter.SiteListAdapter;
 import com.app.discover.dal.interfaces.SiteInterface;
-import com.app.discover.dal.interfaces.UserInterface;
 import com.app.discover.dal.service.SiteService;
 import com.app.discover.model.Site;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -56,6 +50,7 @@ public class SiteFragment extends Fragment {
     private SiteListAdapter siteListAdapter;
     private String url;
     private Gson gson;
+    private TextView searchBar;
 
     public SiteFragment() {
         // Required empty public constructor
@@ -96,8 +91,6 @@ public class SiteFragment extends Fragment {
 
         init(view);
 
-        TextView searchBar = view.findViewById(R.id.searchEditText);
-
         searchBar.addTextChangedListener(new TextWatcher() {
             private final Handler handler = new Handler();
             private Runnable runnable;
@@ -136,6 +129,7 @@ public class SiteFragment extends Fragment {
         siteService = new SiteService(context);
         recyclerView = view.findViewById(R.id.site_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        searchBar = view.findViewById(R.id.searchEditText);
         url = "http://192.168.56.1:8000/sites";
         gson = new Gson();
         siteListAdapter = null;

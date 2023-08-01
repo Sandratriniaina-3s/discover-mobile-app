@@ -3,11 +3,13 @@ package com.app.discover.dal.service;
 import android.content.Context;
 import android.util.Log;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonArrayRequest;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.app.discover.controller.DataManager;
 import com.app.discover.dal.interfaces.SiteInterface;
 import com.app.discover.dal.interfaces.UserInterface;
 import com.app.discover.utils.VolleySingleton;
@@ -15,12 +17,17 @@ import com.app.discover.utils.VolleySingleton;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import java.util.HashMap;
+import java.util.Map;
+
 public class SiteService {
 
     private Context context;
+    private DataManager dataManager ;
 
     public SiteService(Context context) {
         this.context = context;
+        dataManager = DataManager.getInstance(context);
     }
 
     public void getAllSite(String url, String search, SiteInterface callback){
@@ -44,8 +51,16 @@ public class SiteService {
                         callback.handleError(error);
                     }
                 }
-
-        );
+        )
+        {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                Log.i("aaa", dataManager.getSetting().getInformation().getUserId());
+                headers.put("Authorization", "Bearer " + dataManager.getSetting().getInformation().getToken());
+                return headers;
+            }
+        };
 
         VolleySingleton.getInstance(context).getRequestQueue().add(jsonArrayRequest);
 
