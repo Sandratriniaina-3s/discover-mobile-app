@@ -1,11 +1,21 @@
 package com.app.discover.model;
 
+import java.util.ArrayList;
+
 public class Site {
     private String name;
     private String location;
     private String description;
     private String thumbnail;
-    private String medias;
+    private String[] photos;
+
+    public String[] getPhotos() {
+        return photos;
+    }
+
+    public void set_id(String _id) {
+        this._id = _id;
+    }
 
     private String _id;
 
@@ -20,13 +30,6 @@ public class Site {
         this.thumbnail = thumbnail;
     }
 
-    public String getMedias() {
-        return medias;
-    }
-
-    public void setMedias(String medias) {
-        this.medias = medias;
-    }
 
     public String getName() {
         return name;

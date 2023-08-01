@@ -104,6 +104,7 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void handleObjectResponse(JSONObject jsonObject) {
                 site = gson.fromJson(jsonObject.toString(),Site.class);
+                Log.d("-----------",site.get_id());
                 setDetailView(site);
             }
 
@@ -120,18 +121,18 @@ public class DetailActivity extends AppCompatActivity {
     }
 
     private void setDetailView(Site site){
-       runOnUiThread(new Runnable() {
-           @Override
-           public void run() {
-               ImageView thumbnail = findViewById(R.id.thumbnail);
-               TextView name = findViewById(R.id.name);
-               TextView description = findViewById(R.id.description);
-               TextView location = findViewById(R.id.location);
-               Picasso.get().load(apiUrl+site.getThumbnail()).into(thumbnail);
-               name.setText(site.getName());
-               description.setText(site.getDescription());
-               location.setText(site.getLocation());
-           }
-       });
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                ImageView thumbnail = findViewById(R.id.thumbnail);
+                TextView name = findViewById(R.id.name);
+                TextView description = findViewById(R.id.description);
+                TextView location = findViewById(R.id.location);
+                Picasso.get().load(apiUrl+site.getThumbnail()).into(thumbnail);
+                name.setText(site.getName());
+                description.setText(site.getDescription());
+                location.setText(site.getLocation());
+            }
+        });
     }
 }

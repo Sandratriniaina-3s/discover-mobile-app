@@ -85,7 +85,16 @@ public class SiteService {
                         callback.handleError(error);
                     }
                 }
-        );
+        )
+        {
+            @Override
+            public Map<String, String> getHeaders() throws AuthFailureError {
+                Map<String, String> headers = new HashMap<>();
+                Log.i("aaa", dataManager.getSetting().getInformation().getUserId());
+                headers.put("Authorization", "Bearer " + dataManager.getSetting().getInformation().getToken());
+                return headers;
+            }
+        };
         VolleySingleton.getInstance(context).getRequestQueue().add(jsonObjectRequest);
     }
 
