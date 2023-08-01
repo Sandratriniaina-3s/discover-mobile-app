@@ -8,7 +8,6 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -52,20 +51,20 @@ public class DetailActivity extends AppCompatActivity {
         Intent i = getIntent();
         init();
         siteId = i.getStringExtra("siteId");
-        launchFragment(new PhotoFragment());
+
         getSiteById(url,siteId);
         tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                switch (tab.getPosition()){
                     case 0:
-                        launchFragment(new PhotoFragment());
+                        launchFragmentWithData(new PhotoFragment(),"PHOTOS",site.getPhotos());
                         break;
                     case 1:
-                        launchFragment(new VideoFragment());
+                        launchFragmentWithData(new VideoFragment(),"VIDEOS",site.getPhotos());
                         break;
                     case 2:
-                        launchFragment(new CommentFragment());
+                        launchFragmentWithData(new CommentFragment(),"",null);
                         break;
                 }
             }
@@ -92,19 +91,23 @@ public class DetailActivity extends AppCompatActivity {
         url = "http://192.168.56.1:8000/sites";
     }
 
-    private void launchFragment(Fragment fragment) {
+    private void launchFragmentWithData(Fragment fragment,String dataName, String[] data) {
+        Bundle args = new Bundle();
+        args.putStringArray(dataName,data);
+        fragment.setArguments(args);
         FragmentManager fragmentManager = getSupportFragmentManager();
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.tab_content_layout, fragment);
         fragmentTransaction.commit();
     }
 
-    private void getSiteById(String url,String id){
+
+    public void getSiteById(String url,String id){
         siteService.getSiteById(url, id, new SiteInterface() {
             @Override
             public void handleObjectResponse(JSONObject jsonObject) {
                 site = gson.fromJson(jsonObject.toString(),Site.class);
-                Log.d("-----------",site.get_id());
+
                 setDetailView(site);
             }
 
@@ -119,6 +122,8 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
     }
+
+
 
     private void setDetailView(Site site){
         runOnUiThread(new Runnable() {
