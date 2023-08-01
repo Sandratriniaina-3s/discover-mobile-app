@@ -49,12 +49,13 @@ public class PhotoFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-         photos = getArguments().getStringArray("PHOTOS");
-         if(photos != null){
-             updateRecyclerView(context,photos);
-         }
-        }
+
+        /*if (getArguments() != null) {
+            photos = getArguments().getStringArray("PHOTOS");
+            if(photos != null){
+                updateRecyclerView(context,photos);
+            }
+        }*/
     }
 
     @Override
@@ -63,14 +64,20 @@ public class PhotoFragment extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_photo, container, false);
         init(view);
-
+        if (getArguments() != null) {
+            photos = getArguments().getStringArray("PHOTOS");
+            if(photos != null){
+                updateRecyclerView(context,photos);
+            }
+        }
+        //updateRecyclerView(context,photos);
         return view;
     }
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        updateRecyclerView(context,photos);
+        //updateRecyclerView(context,photos);
     }
     private void init(View view){
         imageAdapter =null;

@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -53,32 +54,6 @@ public class DetailActivity extends AppCompatActivity {
         siteId = i.getStringExtra("siteId");
 
         getSiteById(url,siteId);
-        tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
-            @Override
-            public void onTabSelected(TabLayout.Tab tab) {
-               switch (tab.getPosition()){
-                    case 0:
-                        launchFragmentWithData(new PhotoFragment(),"PHOTOS",site.getPhotos());
-                        break;
-                    case 1:
-                        launchFragmentWithData(new VideoFragment(),"VIDEOS",site.getPhotos());
-                        break;
-                    case 2:
-                        launchFragmentWithData(new CommentFragment(),"",null);
-                        break;
-                }
-            }
-
-            @Override
-            public void onTabUnselected(TabLayout.Tab tab) {
-
-            }
-
-            @Override
-            public void onTabReselected(TabLayout.Tab tab) {
-
-            }
-        });
 
     }
 
@@ -107,6 +82,34 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void handleObjectResponse(JSONObject jsonObject) {
                 site = gson.fromJson(jsonObject.toString(),Site.class);
+
+                launchFragmentWithData(new PhotoFragment(),"PHOTOS",site.getPhotos());
+                tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+                    @Override
+                    public void onTabSelected(TabLayout.Tab tab) {
+                        switch (tab.getPosition()){
+                            case 0:
+                                launchFragmentWithData(new PhotoFragment(),"PHOTOS",site.getPhotos());
+                                break;
+                            case 1:
+                                launchFragmentWithData(new VideoFragment(),"VIDEOS",site.getPhotos());
+                                break;
+                            case 2:
+                                launchFragmentWithData(new CommentFragment(),"",null);
+                                break;
+                        }
+                    }
+
+                    @Override
+                    public void onTabUnselected(TabLayout.Tab tab) {
+
+                    }
+
+                    @Override
+                    public void onTabReselected(TabLayout.Tab tab) {
+
+                    }
+                });
 
                 setDetailView(site);
             }
