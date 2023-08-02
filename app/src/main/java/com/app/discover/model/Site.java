@@ -9,6 +9,16 @@ public class Site {
     private String thumbnail;
     private String[] photos;
 
+    private String[] videos;
+
+    public String[] getVideos() {
+        return videos;
+    }
+
+    public void setVideos(String[] videos) {
+        this.videos = videos;
+    }
+
     public String[] getPhotos() {
         return photos;
     }

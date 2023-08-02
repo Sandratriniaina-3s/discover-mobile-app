@@ -82,9 +82,10 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void handleObjectResponse(JSONObject jsonObject) {
                 site = gson.fromJson(jsonObject.toString(),Site.class);
-
+                Log.d("-------------",site.getVideos()[0]);
                 launchFragmentWithData(new PhotoFragment(),"PHOTOS",site.getPhotos());
-                tabLayout.setOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+
+                tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
                     @Override
                     public void onTabSelected(TabLayout.Tab tab) {
                         switch (tab.getPosition()){
@@ -92,7 +93,7 @@ public class DetailActivity extends AppCompatActivity {
                                 launchFragmentWithData(new PhotoFragment(),"PHOTOS",site.getPhotos());
                                 break;
                             case 1:
-                                launchFragmentWithData(new VideoFragment(),"VIDEOS",site.getPhotos());
+                                launchFragmentWithData(new VideoFragment(),"VIDEOS",site.getVideos());
                                 break;
                             case 2:
                                 launchFragmentWithData(new CommentFragment(),"",null);
@@ -107,7 +108,17 @@ public class DetailActivity extends AppCompatActivity {
 
                     @Override
                     public void onTabReselected(TabLayout.Tab tab) {
-
+                        switch (tab.getPosition()){
+                            case 0:
+                                launchFragmentWithData(new PhotoFragment(),"PHOTOS",site.getPhotos());
+                                break;
+                            case 1:
+                                launchFragmentWithData(new VideoFragment(),"VIDEOS",site.getVideos());
+                                break;
+                            case 2:
+                                launchFragmentWithData(new CommentFragment(),"",null);
+                                break;
+                        }
                     }
                 });
 
