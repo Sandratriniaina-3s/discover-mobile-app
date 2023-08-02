@@ -7,6 +7,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.VideoView;
 
 import androidx.annotation.NonNull;
@@ -17,6 +18,8 @@ import com.app.discover.R;
 public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> {
     private Context context;
     private String[] videos;
+
+    private MediaController mediaController;
     private String apiUrl = "http://192.168.56.1:8000";
 
     public VideoAdapter(Context context, String[] videos){
@@ -38,11 +41,13 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
             // Start video playback when prepared
             holder.video.start();
         });
+        mediaController = new MediaController(context);
         Uri apiUri = Uri.parse(apiUrl);
         String videoPath = videos[position];
         Uri videoUri = Uri.withAppendedPath(apiUri,videoPath);
         Log.d("--------------", String.valueOf(videoUri));
         holder.video.setVideoURI(videoUri);
+        holder.video.setMediaController(mediaController);
     }
 
     @Override
