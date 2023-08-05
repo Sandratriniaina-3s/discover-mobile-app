@@ -1,6 +1,19 @@
 package com.app.discover.controller;
 
+
+import android.Manifest;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.util.Log;
+
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
+
+import com.app.discover.R;
 
 import io.socket.client.IO;
 import io.socket.client.Socket;
@@ -16,11 +29,11 @@ public class SocketManager {
     }
 
 
-    public static void initSocket(){
+    public static void initSocket(Context context) {
         try {
             IO.Options options = new IO.Options();
             options.forceNew = true;
-            socket = IO.socket("http://192.168.1.101:8000",options); // Replace with your server's IP address
+            socket = IO.socket("http://192.168.1.101:8000", options); // Replace with your server's IP address
             socket.on(Socket.EVENT_CONNECT_ERROR, new Emitter.Listener() {
                 @Override
                 public void call(Object... args) {
@@ -35,7 +48,7 @@ public class SocketManager {
         socket.connect();
 
         socket.on(Socket.EVENT_CONNECT, args -> {
-           Log.d("-------------------","connected to server");
+            Log.d("-------------------", "connected to server");
         });
 
         socket.on(Socket.EVENT_CONNECT, new Emitter.Listener() {
@@ -54,7 +67,23 @@ public class SocketManager {
         socket.on("messager", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
-                Log.d("-----------------","Message received");
+                Log.d("-----------------", "Message received");
+                NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "Comment");
+                builder.setContentTitle("Nouveau commentaire");
+                builder.setContentText("Un nouveau commentaire a été ajouté");
+                builder.setSmallIcon(R.drawable.round_notification_24);
+                builder.setAutoCancel(true);
+
+                NotificationManagerCompat manager = NotificationManagerCompat.from(context);
+                if (ActivityCompat.checkSelfPermission(context, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+                    return;
+                }
+                if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.O){
+                    NotificationChannel channel = new NotificationChannel("Comment", "Discover", NotificationManager.IMPORTANCE_DEFAULT);
+                    NotificationManager nManager = context.getSystemService(NotificationManager.class);
+                    nManager.createNotificationChannel(channel);
+                }
+                manager.notify(1, builder.build());
             }
         });
 

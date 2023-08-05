@@ -97,7 +97,7 @@ public class SiteFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_site, container, false);
 
         init(view);
-        SocketManager.initSocket();
+        SocketManager.initSocket(view.getContext());
 
         searchBar.addTextChangedListener(new TextWatcher() {
             private final Handler handler = new Handler();
