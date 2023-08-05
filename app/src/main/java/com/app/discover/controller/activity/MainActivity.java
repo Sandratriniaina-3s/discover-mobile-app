@@ -8,15 +8,21 @@ import androidx.fragment.app.FragmentTransaction;
 
 import android.app.Application;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
 import com.app.discover.R;
+import com.app.discover.controller.SocketManager;
 import com.app.discover.controller.fragment.NotificationFragment;
 import com.app.discover.controller.fragment.SettingFragment;
 import com.app.discover.controller.fragment.SiteFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.squareup.picasso.Picasso;
+
+import io.socket.client.IO;
+import io.socket.client.Socket;
+import io.socket.emitter.Emitter;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -27,7 +33,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        SocketManager.initSocket();
         init();
 
         launchFragment(new SiteFragment(), "Sites");
@@ -48,12 +54,12 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             }
         });
-
     }
 
     private void init(){
         bottomNavigation = findViewById(R.id.bottom_navigation);
         activeFragment = findViewById(R.id.active_fragment_name);
+
     }
 
     private void launchFragment(Fragment fragment, String fragmentName) {
