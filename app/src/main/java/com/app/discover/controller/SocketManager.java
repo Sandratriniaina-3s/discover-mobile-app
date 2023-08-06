@@ -64,7 +64,7 @@ public class SocketManager {
             }
         });
 
-        socket.on("messager", new Emitter.Listener() {
+        socket.on("notification", new Emitter.Listener() {
             @Override
             public void call(Object... args) {
                 Log.d("-----------------", "Message received");

@@ -15,6 +15,11 @@ import com.app.discover.R;
 import com.app.discover.controller.activity.DetailActivity;
 import com.app.discover.model.Notification;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
 public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapter.ViewHolder>{
 
     private Context context;
@@ -38,7 +43,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         Notification notification = notifications[position];
-        holder.txtNotificationDate.setText(notification.getCreatedAt().toString());
+        holder.txtNotificationDate.setText(dateFormatter(notification.getCreatedAt()));
         holder.txtNotificationContent.setText(notification.getContent());
         holder.txtNotificationContent.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -49,6 +54,25 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
             }
         });
     }
+    private String dateFormatter(String date){
+
+        SimpleDateFormat isoDateFormat = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSS'Z'");
+
+        try {
+            Date javaDate = isoDateFormat.parse(date);
+            SimpleDateFormat frenchDateFormat = new SimpleDateFormat("EE dd MMMM yyyy", Locale.FRENCH);
+            String frenchFormattedDate = frenchDateFormat.format(javaDate);
+
+            return frenchFormattedDate;
+
+        } catch (ParseException e) {
+
+        }
+
+        return null;
+
+    }
+
 
     @Override
     public int getItemCount() {

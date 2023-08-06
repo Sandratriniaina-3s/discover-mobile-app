@@ -5,7 +5,7 @@ import java.util.Date;
 public class Notification {
     private String _id;
     private String commentId;
-    private Date createdAt;
+    private String createdAt;
     private String[] readBy;
 
     public String getSiteId() {
@@ -44,11 +44,11 @@ public class Notification {
         this.commentId = commentId;
     }
 
-    public Date getCreatedAt() {
+    public String getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(Date createdAt) {
+    public void setCreatedAt(String createdAt) {
         this.createdAt = createdAt;
     }
 
