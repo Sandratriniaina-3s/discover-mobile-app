@@ -12,7 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.os.Handler;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +19,7 @@ import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.app.discover.R;
-import com.app.discover.adapter.SiteListAdapter;
+import com.app.discover.adapter.SiteAdapter;
 import com.app.discover.controller.SocketManager;
 import com.app.discover.dal.interfaces.SiteInterface;
 import com.app.discover.dal.service.SiteService;
@@ -31,7 +30,6 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import io.socket.client.Socket;
-import io.socket.emitter.Emitter;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -52,7 +50,7 @@ public class SiteFragment extends Fragment {
     private Site[] sites;
     private RecyclerView recyclerView;
     private Context context;
-    private SiteListAdapter siteListAdapter;
+    private SiteAdapter siteListAdapter;
     private String url;
     private Gson gson;
     private TextView searchBar;
@@ -145,7 +143,7 @@ public class SiteFragment extends Fragment {
     }
 
     private void updateRecyclerView(Context context, Site[] sites){
-        siteListAdapter = new SiteListAdapter(context, sites);
+        siteListAdapter = new SiteAdapter(context, sites);
         recyclerView.setAdapter(siteListAdapter);
     }
 

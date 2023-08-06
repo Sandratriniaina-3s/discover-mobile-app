@@ -82,7 +82,8 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void handleObjectResponse(JSONObject jsonObject) {
                 site = gson.fromJson(jsonObject.toString(),Site.class);
-                Log.d("-------------",site.getVideos()[0]);
+
+
                 launchFragmentWithData(new PhotoFragment(),"PHOTOS",site.getPhotos());
 
                 tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -96,7 +97,7 @@ public class DetailActivity extends AppCompatActivity {
                                 launchFragmentWithData(new VideoFragment(),"VIDEOS",site.getVideos());
                                 break;
                             case 2:
-                                launchFragmentWithData(new CommentFragment(),"",null);
+                                launchFragmentWithData(new CommentFragment(),"SITES",new String[]{site.get_id()});
                                 break;
                         }
                     }
@@ -108,7 +109,7 @@ public class DetailActivity extends AppCompatActivity {
 
                     @Override
                     public void onTabReselected(TabLayout.Tab tab) {
-                        switch (tab.getPosition()){
+                        /*switch (tab.getPosition()){
                             case 0:
                                 launchFragmentWithData(new PhotoFragment(),"PHOTOS",site.getPhotos());
                                 break;
@@ -116,9 +117,9 @@ public class DetailActivity extends AppCompatActivity {
                                 launchFragmentWithData(new VideoFragment(),"VIDEOS",site.getVideos());
                                 break;
                             case 2:
-                                launchFragmentWithData(new CommentFragment(),"",null);
+                                launchFragmentWithData(new CommentFragment(),"SITES",new String[]{site.get_id()});
                                 break;
-                        }
+                        }*/
                     }
                 });
 

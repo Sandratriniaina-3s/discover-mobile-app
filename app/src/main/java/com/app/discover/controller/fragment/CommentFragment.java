@@ -1,49 +1,54 @@
 package com.app.discover.controller.fragment;
-
+import android.content.Context;
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
-
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
+import android.widget.EditText;
+import android.widget.ImageButton;
+import com.android.volley.VolleyError;
 import com.app.discover.R;
+import com.app.discover.adapter.CommentAdapter;
+import com.app.discover.controller.DataManager;
+import com.app.discover.dal.interfaces.CommentInterface;
+import com.app.discover.dal.service.CommentService;
+import com.app.discover.model.Comment;
+import com.app.discover.model.User;
+import com.google.gson.Gson;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link CommentFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class CommentFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private RecyclerView recyclerView;
+    private Context context;
+    private CommentService commentService;
+    private String url, siteId;
+    private Gson gson;
+    private DataManager dataManager;
+    private Comment comment;
+    private User user;
+    private Comment[] comments;
+    private CommentAdapter commentAdapter;
+    private EditText commentValueInput;
+    private ImageButton btnPostComment;
+    private JSONObject jsonObject;
 
     public CommentFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment CommentFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static CommentFragment newInstance(String param1, String param2) {
         CommentFragment fragment = new CommentFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+
         fragment.setArguments(args);
         return fragment;
     }
@@ -51,10 +56,6 @@ public class CommentFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -62,6 +63,106 @@ public class CommentFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_comment, container, false);
+        init(view);
+
+        if (getArguments() != null) {
+            siteId = getArguments().getStringArray("SITES")[0];
+            if(siteId != null){
+                getAllSiteComment(siteId);
+            }
+        }
+
+        commentValueInput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                comment.setValue(String.valueOf(commentValueInput.getText()));
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+
+            }
+        });
+
+        comment.setUser(user);
+
+        btnPostComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                try {
+                    jsonObject = new JSONObject(gson.toJson(comment));
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
+                commentService.addComment(url + siteId, jsonObject, new CommentInterface() {
+                    @Override
+                    public void handleObjectResponse(JSONObject jsonObject) {
+
+                        getAllSiteComment(siteId);
+                        commentValueInput.setText("");
+                    }
+
+                    @Override
+                    public void handleArrayResponse(JSONArray jsonArray) {
+
+                    }
+
+                    @Override
+                    public void handleError(VolleyError volleyError) {
+
+                    }
+                });
+            }
+        });
+
         return view;
+    }
+
+    private void init(View view){
+        commentAdapter = null;
+        context = view.getContext();
+        recyclerView = view.findViewById(R.id.recycler_view_comment);
+        recyclerView.setLayoutManager(new LinearLayoutManager(context));
+        commentService = new CommentService(context);
+        gson = new Gson();
+        commentValueInput = view.findViewById(R.id.edit_text_comment_value);
+        btnPostComment = view.findViewById(R.id.btn_post_comment);
+        url = "http://192.168.56.1:8000/comment/site/";
+        dataManager = DataManager.getInstance(context);
+        jsonObject = null;
+        comment = new Comment();
+        user = new User();
+        user.setId(dataManager.getSetting().getInformation().getUserId());
+        siteId = null;
+    }
+
+    private void getAllSiteComment(String siteId){
+        commentService.getAllComment(url+siteId, new CommentInterface() {
+            @Override
+            public void handleObjectResponse(JSONObject jsonObject) {
+
+            }
+
+            @Override
+            public void handleArrayResponse(JSONArray jsonArray) {
+                comments = gson.fromJson(jsonArray.toString(), Comment[].class);
+                updateRecyclerView(context,comments);
+            }
+
+            @Override
+            public void handleError(VolleyError volleyError) {
+
+            }
+        });
+    }
+
+    private void updateRecyclerView(Context context, Comment[] comments){
+        commentAdapter = new CommentAdapter(context, comments);
+        recyclerView.setAdapter(commentAdapter);
     }
 }

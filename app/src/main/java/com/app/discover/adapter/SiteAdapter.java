@@ -1,10 +1,7 @@
 package com.app.discover.adapter;
 
-import static androidx.core.content.ContextCompat.startActivity;
-
 import android.content.Context;
 import android.content.Intent;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,33 +12,32 @@ import android.widget.TextView;
 import com.app.discover.R;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.ComponentActivity;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.app.discover.controller.activity.DetailActivity;
 import com.app.discover.model.Site;
 import com.squareup.picasso.Picasso;
 
-public class SiteListAdapter extends RecyclerView.Adapter<SiteListAdapter.ViewHolder> {
+public class SiteAdapter extends RecyclerView.Adapter<SiteAdapter.ViewHolder> {
 
     private Context context;
     private Site[] sites;
     private String apiUrl = "http://192.168.56.1:8000";
 
-    public SiteListAdapter(Context context, Site[] sites) {
+    public SiteAdapter(Context context, Site[] sites) {
         this.context = context;
         this.sites = sites;
     }
 
     @NonNull
     @Override
-    public SiteListAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public SiteAdapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View v = LayoutInflater.from(context).inflate(R.layout.site_item_layout,parent,false);
         return new ViewHolder(v);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull SiteListAdapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull SiteAdapter.ViewHolder holder, int position) {
         Site site = sites[position];
 
         holder.txSiteName.setText(site.getName());

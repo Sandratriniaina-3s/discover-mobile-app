@@ -15,11 +15,7 @@ import android.view.ViewGroup;
 import com.app.discover.R;
 import com.app.discover.adapter.VideoAdapter;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link VideoFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class VideoFragment extends Fragment {
 
     private String[] videos;
@@ -53,7 +49,6 @@ public class VideoFragment extends Fragment {
         init(view);
         if(getArguments() !=null){
             videos = getArguments().getStringArray("VIDEOS");
-            Log.d("-------------------",videos[0]);
             if(videos != null){
                 updateRecyclerView(context,videos);
             }

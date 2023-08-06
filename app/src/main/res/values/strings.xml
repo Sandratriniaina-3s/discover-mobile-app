@@ -74,4 +74,8 @@
     <string name="photo_fragment_text">PHOTO FRAGEMENT</string>
     <string name="video_fragment_text">VIDEO FRAGEMENT</string>
     <string name="comment_fragment_text">COMMENT FRAGEMENT</string>
+
+    <string name="commentator_name">User name</string>
+    <string name="first_name_initial">I</string>
+    <string name="comment_input_holder">Ecrivez un commentaire</string>
 </resources>
