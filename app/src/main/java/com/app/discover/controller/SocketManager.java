@@ -71,7 +71,7 @@ public class SocketManager {
                 NotificationCompat.Builder builder = new NotificationCompat.Builder(context, "Comment");
                 builder.setContentTitle("Nouveau commentaire");
                 builder.setContentText("Un nouveau commentaire a été ajouté");
-                builder.setSmallIcon(R.drawable.round_notification_24);
+                builder.setSmallIcon(R.drawable.logo);
                 builder.setAutoCancel(true);
 
                 NotificationManagerCompat manager = NotificationManagerCompat.from(context);
