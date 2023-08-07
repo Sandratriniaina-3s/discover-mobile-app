@@ -1,8 +1,6 @@
 package com.app.discover.controller;
 
 import android.content.Context;
-
-import com.app.discover.model.Information;
 import com.app.discover.model.Setting;
 import com.app.discover.utils.Serializer;
 

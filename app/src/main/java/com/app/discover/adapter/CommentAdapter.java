@@ -42,13 +42,6 @@ public class CommentAdapter extends RecyclerView.Adapter<CommentAdapter.ViewHold
         holder.txCommentator.setText(comment.getUser().getFullName());
         holder.txValue.setText(comment.getValue());
         holder.txDate.setText(dateFormatter(comment.getDate()));
-        /*if(comment.getDate() != null){
-
-            Log.i("aaaa", dateFormatter(comment.getDate()));
-        }*/
-
-        /*holder.btnPostComment.setOnClickListener();*/
-
     }
 
     @Override

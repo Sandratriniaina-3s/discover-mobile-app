@@ -1,7 +1,6 @@
 package com.app.discover.adapter;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,13 +12,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.app.discover.R;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 
 public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> {
 
     private Context  context;
     private String[] images;
-
     private String apiUrl = "http://192.168.56.1:8000";
 
     public ImageAdapter(Context context, String[] images) {

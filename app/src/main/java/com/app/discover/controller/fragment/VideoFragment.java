@@ -7,14 +7,12 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.app.discover.R;
 import com.app.discover.adapter.VideoAdapter;
-
 
 public class VideoFragment extends Fragment {
 
@@ -67,4 +65,5 @@ public class VideoFragment extends Fragment {
         videoAdapter = new VideoAdapter(context,videos);
         recyclerView.setAdapter(videoAdapter);
     }
+
 }

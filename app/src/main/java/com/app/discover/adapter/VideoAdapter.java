@@ -2,11 +2,9 @@ package com.app.discover.adapter;
 
 import android.content.Context;
 import android.net.Uri;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.VideoView;
 
@@ -45,7 +43,6 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
         Uri apiUri = Uri.parse(apiUrl);
         String videoPath = videos[position];
         Uri videoUri = Uri.withAppendedPath(apiUri,videoPath);
-        Log.d("--------------", String.valueOf(videoUri));
         holder.video.setVideoURI(videoUri);
         holder.video.setMediaController(mediaController);
     }

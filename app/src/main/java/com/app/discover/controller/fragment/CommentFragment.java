@@ -94,29 +94,34 @@ public class CommentFragment extends Fragment {
         btnPostComment.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                try {
-                    jsonObject = new JSONObject(gson.toJson(comment));
-                } catch (JSONException e) {
-                    throw new RuntimeException(e);
+
+                if(!isInputDataEmpty(commentValueInput)){
+
+                    try {
+                        jsonObject = new JSONObject(gson.toJson(comment));
+                    } catch (JSONException e) {
+                        throw new RuntimeException(e);
+                    }
+                    commentService.addComment(url + siteId, jsonObject, new CommentInterface() {
+                        @Override
+                        public void handleObjectResponse(JSONObject jsonObject) {
+
+                            getAllSiteComment(siteId);
+                            commentValueInput.setText("");
+                        }
+
+                        @Override
+                        public void handleArrayResponse(JSONArray jsonArray) {
+
+                        }
+
+                        @Override
+                        public void handleError(VolleyError volleyError) {
+
+                        }
+                    });
                 }
-                commentService.addComment(url + siteId, jsonObject, new CommentInterface() {
-                    @Override
-                    public void handleObjectResponse(JSONObject jsonObject) {
 
-                        getAllSiteComment(siteId);
-                        commentValueInput.setText("");
-                    }
-
-                    @Override
-                    public void handleArrayResponse(JSONArray jsonArray) {
-
-                    }
-
-                    @Override
-                    public void handleError(VolleyError volleyError) {
-
-                    }
-                });
             }
         });
 
@@ -165,4 +170,17 @@ public class CommentFragment extends Fragment {
         commentAdapter = new CommentAdapter(context, comments);
         recyclerView.setAdapter(commentAdapter);
     }
+
+    private Boolean isInputDataEmpty(EditText textInputEditText){
+
+        String inputText = textInputEditText.getText().toString().trim();
+
+        if (inputText.isEmpty()) {
+            return true;
+        } else {
+            return false;
+        }
+
+    }
+
 }

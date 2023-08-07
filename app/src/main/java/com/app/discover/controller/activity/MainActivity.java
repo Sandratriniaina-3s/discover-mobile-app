@@ -6,10 +6,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.app.Application;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
 import android.widget.TextView;
 
@@ -20,10 +18,6 @@ import com.app.discover.controller.fragment.SettingFragment;
 import com.app.discover.controller.fragment.SiteFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.squareup.picasso.Picasso;
-
-import io.socket.client.IO;
-import io.socket.client.Socket;
-import io.socket.emitter.Emitter;
 
 public class MainActivity extends AppCompatActivity {
 

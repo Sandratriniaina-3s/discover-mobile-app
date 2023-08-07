@@ -12,7 +12,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CompoundButton;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
@@ -26,7 +25,6 @@ import com.app.discover.dal.service.UserService;
 import com.app.discover.model.Information;
 import com.app.discover.model.Setting;
 import com.app.discover.model.User;
-import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.switchmaterial.SwitchMaterial;
@@ -34,7 +32,6 @@ import com.google.gson.Gson;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
-import org.w3c.dom.Text;
 
 public class SettingFragment extends Fragment {
 
@@ -150,9 +147,7 @@ public class SettingFragment extends Fragment {
         logout = view.findViewById(R.id.setting_logout);
         password = view.findViewById(R.id.setting_password);
         switcher = view.findViewById(R.id.setting_notification);
-
         switcher.setChecked(dataManager.getSetting().getNotificationState());
-
         getUser(url);
     }
 

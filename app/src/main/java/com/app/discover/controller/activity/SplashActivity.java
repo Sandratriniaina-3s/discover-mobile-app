@@ -7,7 +7,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import com.app.discover.R;
 import com.app.discover.controller.DataManager;
@@ -21,7 +20,6 @@ public class SplashActivity extends AppCompatActivity {
     private static final int SPLASH_DELAY = 3000;
     private Context context;
     private DataManager dataManager;
-
     private String fileName = "appsetting";
 
     @Override

@@ -7,7 +7,6 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,11 +23,6 @@ import com.google.gson.Gson;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link NotificationFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class NotificationFragment extends Fragment {
     private Notification[] notifications;
     private Context context;
@@ -53,8 +47,6 @@ public class NotificationFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-        }
     }
 
     @Override
@@ -107,4 +99,5 @@ public class NotificationFragment extends Fragment {
         notificationLoaders.setVisibility(View.VISIBLE);
         recyclerView.setVisibility(View.GONE);
     }
+
 }

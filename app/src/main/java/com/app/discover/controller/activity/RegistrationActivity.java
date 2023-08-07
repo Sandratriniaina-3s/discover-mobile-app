@@ -43,7 +43,6 @@ public class RegistrationActivity extends AppCompatActivity {
         setContentView(R.layout.activity_registration);
 
         init();
-
         addAllValueToObject();
 
         btnRegister.setOnClickListener(new View.OnClickListener() {

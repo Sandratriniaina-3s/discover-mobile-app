@@ -3,12 +3,13 @@ package com.app.discover.model;
 import java.util.ArrayList;
 
 public class Site {
+
+    private String _id;
     private String name;
     private String location;
     private String description;
     private String thumbnail;
     private String[] photos;
-
     private String[] videos;
 
     public String[] getVideos() {
@@ -27,8 +28,6 @@ public class Site {
         this._id = _id;
     }
 
-    private String _id;
-
     public String get_id() {
         return _id;
     }
@@ -39,7 +38,6 @@ public class Site {
     public void setThumbnail(String thumbnail) {
         this.thumbnail = thumbnail;
     }
-
 
     public String getName() {
         return name;

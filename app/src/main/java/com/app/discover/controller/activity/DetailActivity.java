@@ -9,7 +9,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
-import android.webkit.WebView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -34,23 +33,15 @@ import org.json.JSONObject;
 public class DetailActivity extends AppCompatActivity {
 
     private TabLayout tabLayout;
-
     private Context context;
-
     private SiteService siteService;
-
     private Gson gson;
     public static String siteId;
-
     private String url ;
-
     private Site site;
-
     private MaterialToolbar toolbar;
-
     private CircularProgressIndicator siteDetailLoaders;
     private LinearLayout detailContainer;
-
     private String apiUrl = "http://192.168.56.1:8000";
 
     @Override
@@ -127,17 +118,7 @@ public class DetailActivity extends AppCompatActivity {
 
                     @Override
                     public void onTabReselected(TabLayout.Tab tab) {
-                        /*switch (tab.getPosition()){
-                            case 0:
-                                launchFragmentWithData(new PhotoFragment(),"PHOTOS",site.getPhotos());
-                                break;
-                            case 1:
-                                launchFragmentWithData(new VideoFragment(),"VIDEOS",site.getVideos());
-                                break;
-                            case 2:
-                                launchFragmentWithData(new CommentFragment(),"SITES",new String[]{site.get_id()});
-                                break;
-                        }*/
+
                     }
                 });
 
@@ -158,8 +139,6 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
     }
-
-
 
     private void setDetailView(Site site){
         runOnUiThread(new Runnable() {
