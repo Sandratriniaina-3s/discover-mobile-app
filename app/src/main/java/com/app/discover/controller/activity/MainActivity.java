@@ -7,6 +7,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.app.Application;
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
 
     private BottomNavigationView bottomNavigation;
     private TextView activeFragment;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,8 +40,9 @@ public class MainActivity extends AppCompatActivity {
 
         launchFragment(new SiteFragment(), "Sites");
 
-        // Initialize Picasso with the application context
-        Picasso.setSingletonInstance(new Picasso.Builder(this).build());
+        if(Picasso.get() == null){
+            Picasso.setSingletonInstance(new Picasso.Builder(context).build());
+        }
 
         bottomNavigation.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
@@ -59,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
     private void init(){
         bottomNavigation = findViewById(R.id.bottom_navigation);
         activeFragment = findViewById(R.id.active_fragment_name);
-
+        context = this;
     }
 
     private void launchFragment(Fragment fragment, String fragmentName) {

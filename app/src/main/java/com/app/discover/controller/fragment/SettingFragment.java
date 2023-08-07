@@ -92,7 +92,11 @@ public class SettingFragment extends Fragment {
                         .setPositiveButton("Oui", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                dataManager.saveSetting(null,context);
+                                Setting setting = dataManager.getSetting();
+                                Information information = new Information();
+                                information.setUserId("");
+                                setting.setInformation(information);
+                                dataManager.saveSetting(setting,context);
                                 Intent intent = new Intent(context, LoginActivity.class);
                                 startActivity(intent);
                                 ((MainActivity)getActivity()).finish();
