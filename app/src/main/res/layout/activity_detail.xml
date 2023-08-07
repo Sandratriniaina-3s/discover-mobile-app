@@ -23,7 +23,20 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/site_detail_loaders"
+        android:layout_width="170dp"
+        android:layout_height="162dp"
+        android:layout_gravity="center"
+        android:indeterminate="true"
+        app:indicatorSize="180dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
+
     <LinearLayout
+        android:id="@+id/detail_container"
         app:layout_constraintTop_toBottomOf="@id/d_appbar_layout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

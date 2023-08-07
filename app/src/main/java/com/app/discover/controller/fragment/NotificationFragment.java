@@ -18,6 +18,7 @@ import com.app.discover.adapter.NotificationAdapter;
 import com.app.discover.dal.interfaces.NotificationInterface;
 import com.app.discover.dal.service.NotificationService;
 import com.app.discover.model.Notification;
+import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -29,7 +30,6 @@ import org.json.JSONObject;
  * create an instance of this fragment.
  */
 public class NotificationFragment extends Fragment {
-
     private Notification[] notifications;
     private Context context;
     private NotificationService notificationService;
@@ -37,6 +37,7 @@ public class NotificationFragment extends Fragment {
     private Gson gson;
     private NotificationAdapter notificationAdapter;
     private String url;
+    private CircularProgressIndicator notificationLoaders;
 
     public NotificationFragment() {
         // Required empty public constructor
@@ -82,6 +83,8 @@ public class NotificationFragment extends Fragment {
             public void handleArrayResponse(JSONArray jsonArray) {
                 notifications = gson.fromJson(jsonArray.toString(),Notification[].class);
                 updateRecyclerView(context,notifications);
+                notificationLoaders.setVisibility(View.GONE);
+                recyclerView.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -100,5 +103,8 @@ public class NotificationFragment extends Fragment {
         gson = new Gson();
         notificationAdapter = null;
         url="http://192.168.56.1:8000/notifications";
+        notificationLoaders = view.findViewById(R.id.notification_loaders);
+        notificationLoaders.setVisibility(View.VISIBLE);
+        recyclerView.setVisibility(View.GONE);
     }
 }

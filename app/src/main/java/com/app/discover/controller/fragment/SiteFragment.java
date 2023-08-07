@@ -16,6 +16,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
@@ -26,6 +27,7 @@ import com.app.discover.controller.SocketManager;
 import com.app.discover.dal.interfaces.SiteInterface;
 import com.app.discover.dal.service.SiteService;
 import com.app.discover.model.Site;
+import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -43,10 +45,10 @@ public class SiteFragment extends Fragment {
     private String url;
     private Gson gson;
     private TextView searchBar;
-
     private Socket socket;
-
     private DataManager dataManager;
+    private LinearLayout siteContainer;
+    private CircularProgressIndicator siteLoader;
 
     public SiteFragment() {
         // Required empty public constructor
@@ -117,6 +119,10 @@ public class SiteFragment extends Fragment {
         siteListAdapter = null;
         socket = SocketManager.getSocket();
         dataManager = DataManager.getInstance(context);
+        siteLoader = view.findViewById(R.id.site_loaders);
+        siteContainer = view.findViewById(R.id.site_container);
+        siteContainer.setVisibility(View.GONE);
+        siteLoader.setVisibility(View.VISIBLE);
     }
 
     private void updateRecyclerView(Context context, Site[] sites){
@@ -136,6 +142,8 @@ public class SiteFragment extends Fragment {
             public void handleArrayResponse(JSONArray jsonArray) {
                 sites = gson.fromJson(jsonArray.toString(), Site[].class);
                 updateRecyclerView(context, sites);
+                siteContainer.setVisibility(View.VISIBLE);
+                siteLoader.setVisibility(View.GONE);
             }
 
             @Override

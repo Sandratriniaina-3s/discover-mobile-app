@@ -9,7 +9,9 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.webkit.WebView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
@@ -21,6 +23,7 @@ import com.app.discover.dal.interfaces.SiteInterface;
 import com.app.discover.dal.service.SiteService;
 import com.app.discover.model.Site;
 import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
@@ -45,6 +48,8 @@ public class DetailActivity extends AppCompatActivity {
 
     private MaterialToolbar toolbar;
 
+    private CircularProgressIndicator siteDetailLoaders;
+    private LinearLayout detailContainer;
 
     private String apiUrl = "http://192.168.56.1:8000";
 
@@ -74,6 +79,10 @@ public class DetailActivity extends AppCompatActivity {
         gson=new Gson();
         toolbar = findViewById(R.id.d_appbar);
         url = "http://192.168.56.1:8000/sites";
+        siteDetailLoaders = findViewById(R.id.site_detail_loaders);
+        detailContainer = findViewById(R.id.detail_container);
+        siteDetailLoaders.setVisibility(View.VISIBLE);
+        detailContainer.setVisibility(View.GONE);
     }
 
     private void launchFragmentWithData(Fragment fragment,String dataName, String[] data) {
@@ -92,7 +101,6 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void handleObjectResponse(JSONObject jsonObject) {
                 site = gson.fromJson(jsonObject.toString(),Site.class);
-
 
                 launchFragmentWithData(new PhotoFragment(),"PHOTOS",site.getPhotos());
 
@@ -134,6 +142,9 @@ public class DetailActivity extends AppCompatActivity {
                 });
 
                 setDetailView(site);
+
+                siteDetailLoaders.setVisibility(View.GONE);
+                detailContainer.setVisibility(View.VISIBLE);
             }
 
             @Override
