@@ -132,7 +132,7 @@ public class CommentFragment extends Fragment {
         gson = new Gson();
         commentValueInput = view.findViewById(R.id.edit_text_comment_value);
         btnPostComment = view.findViewById(R.id.btn_post_comment);
-        url = "http://192.168.56.1:8000/comment/site/";
+        url = "https://discover-api.onrender.com/comment/site/";
         dataManager = DataManager.getInstance(context);
         jsonObject = null;
         comment = new Comment();

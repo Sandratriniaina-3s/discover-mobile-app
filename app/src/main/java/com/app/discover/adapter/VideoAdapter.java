@@ -20,7 +20,7 @@ public class VideoAdapter extends RecyclerView.Adapter<VideoAdapter.ViewHolder> 
     private String[] videos;
 
     private MediaController mediaController;
-    private String apiUrl = "http://192.168.56.1:8000";
+    private String apiUrl = "https://discover-api.onrender.com/";
 
     public VideoAdapter(Context context, String[] videos){
         this.context = context;

@@ -31,7 +31,7 @@ public class NotificationAdapter extends RecyclerView.Adapter<NotificationAdapte
         this.notifications = notifications;
     }
 
-    private String apiUrl =  "http://192.168.56.1:8000";
+    private String apiUrl =  "https://discover-api.onrender.com/";
 
     @NonNull
     @Override

@@ -114,8 +114,10 @@ public class SiteFragment extends Fragment {
 
             @Override
             public void afterTextChanged(Editable editable) {
-                handler.postDelayed(()->getSites(url,editable.toString()),300);
-                updateRecyclerView(context, sites);
+                handler.postDelayed(()->getSites(url,editable.toString()),500);
+                if(sites !=null){
+                    updateRecyclerView(context, sites);
+                }
             }
         });
 
@@ -136,7 +138,7 @@ public class SiteFragment extends Fragment {
         recyclerView = view.findViewById(R.id.site_recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         searchBar = view.findViewById(R.id.searchEditText);
-        url = "http://192.168.56.1:8000/sites";
+        url = "https://discover-api.onrender.com/sites";
         gson = new Gson();
         siteListAdapter = null;
         socket = SocketManager.getSocket();

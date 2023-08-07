@@ -22,7 +22,7 @@ public class SiteAdapter extends RecyclerView.Adapter<SiteAdapter.ViewHolder> {
 
     private Context context;
     private Site[] sites;
-    private String apiUrl = "http://192.168.56.1:8000";
+    private String apiUrl = "https://discover-api.onrender.com/";
 
     public SiteAdapter(Context context, Site[] sites) {
         this.context = context;

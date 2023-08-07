@@ -99,6 +99,6 @@ public class NotificationFragment extends Fragment {
         recyclerView.setLayoutManager(new LinearLayoutManager(context));
         gson = new Gson();
         notificationAdapter = null;
-        url="http://192.168.56.1:8000/notifications";
+        url="https://discover-api.onrender.com/notifications";
     }
 }

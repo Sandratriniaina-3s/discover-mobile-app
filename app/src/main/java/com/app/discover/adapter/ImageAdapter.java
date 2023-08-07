@@ -20,7 +20,7 @@ public class ImageAdapter extends RecyclerView.Adapter<ImageAdapter.ViewHolder> 
     private Context  context;
     private String[] images;
 
-    private String apiUrl = "http://192.168.56.1:8000";
+    private String apiUrl = "https://discover-api.onrender.com/";
 
     public ImageAdapter(Context context, String[] images) {
         this.context = context;

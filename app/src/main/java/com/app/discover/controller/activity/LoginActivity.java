@@ -77,7 +77,7 @@ public class LoginActivity extends AppCompatActivity {
         gson = new Gson();
         jsonObject = null;
         response = null;
-        url = "http://192.168.56.1:8000/users/login";
+        url = "https://discover-api.onrender.com/users/login";
         dataManager = DataManager.getInstance(context);
     }
     private Boolean isInputDataEmpty(TextInputEditText textInputEditText){

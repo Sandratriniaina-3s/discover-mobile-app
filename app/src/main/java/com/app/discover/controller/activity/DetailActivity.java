@@ -43,7 +43,7 @@ public class DetailActivity extends AppCompatActivity {
     private Site site;
 
 
-    private String apiUrl = "http://192.168.56.1:8000";
+    private String apiUrl = "https://discover-api.onrender.com/";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,7 +63,7 @@ public class DetailActivity extends AppCompatActivity {
         context = this;
         siteService = new SiteService(context);
         gson=new Gson();
-        url = "http://192.168.56.1:8000/sites";
+        url = "https://discover-api.onrender.com/sites";
     }
 
     private void launchFragmentWithData(Fragment fragment,String dataName, String[] data) {
