@@ -8,6 +8,7 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -19,6 +20,7 @@ import com.app.discover.controller.fragment.VideoFragment;
 import com.app.discover.dal.interfaces.SiteInterface;
 import com.app.discover.dal.service.SiteService;
 import com.app.discover.model.Site;
+import com.google.android.material.appbar.MaterialToolbar;
 import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
@@ -41,6 +43,8 @@ public class DetailActivity extends AppCompatActivity {
 
     private Site site;
 
+    private MaterialToolbar toolbar;
+
 
     private String apiUrl = "http://192.168.56.1:8000";
 
@@ -54,6 +58,13 @@ public class DetailActivity extends AppCompatActivity {
 
         getSiteById(url,siteId);
 
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
     }
 
     private void init(){
@@ -61,6 +72,7 @@ public class DetailActivity extends AppCompatActivity {
         context = this;
         siteService = new SiteService(context);
         gson=new Gson();
+        toolbar = findViewById(R.id.d_appbar);
         url = "http://192.168.56.1:8000/sites";
     }
 

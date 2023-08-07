@@ -39,8 +39,8 @@ public final class DataManager {
         this.setting = setting;
     }
 
-    public void saveSetting(Information information, Context context){
-        setting = new Setting(information);
+    public void saveSetting(Setting newSetting, Context context){
+        setting = newSetting;
         Serializer.serialize(filename, setting, context);
     }
 

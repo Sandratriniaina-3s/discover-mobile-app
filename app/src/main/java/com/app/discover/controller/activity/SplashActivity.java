@@ -11,6 +11,7 @@ import android.util.Log;
 import android.view.View;
 import com.app.discover.R;
 import com.app.discover.controller.DataManager;
+import com.app.discover.model.Setting;
 import com.google.android.material.snackbar.Snackbar;
 
 public class SplashActivity extends AppCompatActivity {
@@ -33,6 +34,9 @@ public class SplashActivity extends AppCompatActivity {
                 public void run() {
 
                     if(dataManager.getSetting() == null || dataManager.getSetting().getInformation() == null){
+                        Setting setting = new Setting();
+                        setting.setNotificationState(true);
+                        dataManager.saveSetting(setting, context);
                         startNewActivity(LoginActivity.class);
                     }
                     else {

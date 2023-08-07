@@ -5,7 +5,7 @@ import java.io.Serializable;
 public class Setting implements Serializable {
 
     private Information information;
-    // OTHER APP SETTING
+    private boolean notificationState;
 
     public Setting() {
     }
@@ -20,6 +20,14 @@ public class Setting implements Serializable {
 
     public void setInformation(Information information) {
         this.information = information;
+    }
+
+    public boolean getNotificationState() {
+        return notificationState;
+    }
+
+    public void setNotificationState(boolean notificationState) {
+        this.notificationState = notificationState;
     }
 
 

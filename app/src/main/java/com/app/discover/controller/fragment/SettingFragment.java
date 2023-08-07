@@ -24,6 +24,7 @@ import com.app.discover.controller.activity.PasswordActivity;
 import com.app.discover.dal.interfaces.UserInterface;
 import com.app.discover.dal.service.UserService;
 import com.app.discover.model.Information;
+import com.app.discover.model.Setting;
 import com.app.discover.model.User;
 import com.google.android.material.button.MaterialButtonToggleGroup;
 import com.google.android.material.dialog.MaterialAlertDialogBuilder;
@@ -45,7 +46,6 @@ public class SettingFragment extends Fragment {
     private TextView txFullName, txEmail;
     private String url, userId;
     private Button password, logout;
-
     private SwitchMaterial switcher;
 
     private static final int REQUEST_CODE = 1;
@@ -115,7 +115,9 @@ public class SettingFragment extends Fragment {
         switcher.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-
+                Setting setting = dataManager.getSetting();
+                setting.setNotificationState(b);
+                dataManager.saveSetting(setting, context);
             }
         });
 
@@ -144,6 +146,8 @@ public class SettingFragment extends Fragment {
         logout = view.findViewById(R.id.setting_logout);
         password = view.findViewById(R.id.setting_password);
         switcher = view.findViewById(R.id.setting_notification);
+
+        switcher.setChecked(dataManager.getSetting().getNotificationState());
 
         getUser(url);
     }
