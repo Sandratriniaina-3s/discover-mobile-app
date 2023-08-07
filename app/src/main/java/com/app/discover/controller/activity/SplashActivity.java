@@ -32,7 +32,7 @@ public class SplashActivity extends AppCompatActivity {
                 @Override
                 public void run() {
 
-                    if(dataManager.getSetting() == null){
+                    if(dataManager.getSetting() == null || dataManager.getSetting().getInformation() == null){
                         startNewActivity(LoginActivity.class);
                     }
                     else {

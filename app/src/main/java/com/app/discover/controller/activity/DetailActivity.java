@@ -8,7 +8,6 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -56,7 +55,6 @@ public class DetailActivity extends AppCompatActivity {
         getSiteById(url,siteId);
 
     }
-
 
     private void init(){
         tabLayout = findViewById(R.id.detail_tab_layout);

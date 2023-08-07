@@ -1,5 +1,8 @@
 package com.app.discover.controller.fragment;
 
+import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -7,43 +10,53 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.CompoundButton;
+import android.widget.Switch;
+import android.widget.TextView;
 
+import com.android.volley.VolleyError;
 import com.app.discover.R;
+import com.app.discover.controller.DataManager;
+import com.app.discover.controller.activity.LoginActivity;
+import com.app.discover.controller.activity.MainActivity;
+import com.app.discover.controller.activity.PasswordActivity;
+import com.app.discover.dal.interfaces.UserInterface;
+import com.app.discover.dal.service.UserService;
+import com.app.discover.model.Information;
+import com.app.discover.model.User;
+import com.google.android.material.button.MaterialButtonToggleGroup;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.android.material.switchmaterial.SwitchMaterial;
+import com.google.gson.Gson;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link SettingFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import org.json.JSONArray;
+import org.json.JSONObject;
+import org.w3c.dom.Text;
+
 public class SettingFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private DataManager dataManager;
+    private Context context;
+    private Gson gson;
+    private User user;
+    private UserService userService;
+    private TextView txFullName, txEmail;
+    private String url, userId;
+    private Button password, logout;
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+    private SwitchMaterial switcher;
+
+    private static final int REQUEST_CODE = 1;
 
     public SettingFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment SettingFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static SettingFragment newInstance(String param1, String param2) {
         SettingFragment fragment = new SettingFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -51,10 +64,9 @@ public class SettingFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+        context = getContext();
+        dataManager = DataManager.getInstance(context);
+        userId = dataManager.getSetting().getInformation().getUserId();
     }
 
     @Override
@@ -62,6 +74,103 @@ public class SettingFragment extends Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_setting, container, false);
+        init(view);
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                MaterialAlertDialogBuilder dialog = new MaterialAlertDialogBuilder(context,
+                        com.google.android.material.R.style.ThemeOverlay_MaterialComponents_MaterialCalendar_Fullscreen );
+                dialog.setTitle("Deconnexion")
+                        .setMessage("Souhaitez-vous vraiment deconnecter ?")
+                        .setNegativeButton("Non", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        })
+                        .setPositiveButton("Oui", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                dataManager.saveSetting(null,context);
+                                Intent intent = new Intent(context, LoginActivity.class);
+                                startActivity(intent);
+                                ((MainActivity)getActivity()).finish();
+                            }
+                        });
+                dialog.show();
+
+            }
+        });
+        password.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), PasswordActivity.class);
+                intent.putExtra("key", gson.toJson(user));
+                startActivityForResult(intent, REQUEST_CODE);
+            }
+
+        });
+
+        switcher.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+
+            }
+        });
+
         return view;
     }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == REQUEST_CODE && resultCode == PasswordActivity.RESULT_OK) {
+            if (data != null) {
+                String result = data.getStringExtra("result_key");
+                user.setPassword(result);
+                Snackbar.make(requireView(),"Mot de passe modifié avec succès",Snackbar.LENGTH_LONG).show();
+            }
+        }
+    }
+
+    private void init(View view){
+        txFullName = view.findViewById(R.id.textview_fullname);
+        txEmail = view.findViewById(R.id.textview_email);
+        userService = new UserService(context);
+        gson = new Gson();
+        url = "http://192.168.56.1:8000/users/";
+        logout = view.findViewById(R.id.setting_logout);
+        password = view.findViewById(R.id.setting_password);
+        switcher = view.findViewById(R.id.setting_notification);
+
+        getUser(url);
+    }
+
+    private void getUser(String url){
+        userService.getUserById(url + userId, new UserInterface() {
+            @Override
+            public void handleObjectResponse(JSONObject jsonObject) {
+                user = gson.fromJson(jsonObject.toString(), User.class);
+                setControlValue();
+            }
+
+            @Override
+            public void handleArrayResponse(JSONArray jsonArray) {
+
+            }
+
+            @Override
+            public void handleError(VolleyError volleyError) {
+
+            }
+        });
+    }
+
+    private void setControlValue(){
+        txFullName.setText(user.getFullName());
+        txEmail.setText(user.getEmail());
+    }
+
 }

@@ -78,4 +78,11 @@
     <string name="commentator_name">User name</string>
     <string name="first_name_initial">I</string>
     <string name="comment_input_holder">Ecrivez un commentaire</string>
+    <string name="logout">Déconnecter</string>
+
+    <string name="current_password">Mot de passe actuel</string>
+    <string name="new_password">Nouveau mot de passe</string>
+    <string name="confirm_new_password">Retapez le nouveau mot de passe</string>
+    <string name="save">Enregistrer</string>
+    <string name="change_password">Changer le mot de passe</string>
 </resources>
