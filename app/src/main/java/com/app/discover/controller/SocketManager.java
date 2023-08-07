@@ -20,7 +20,7 @@ import io.socket.emitter.Emitter;
 
 public class SocketManager {
 
-    private final String apiUrl = "http://192.168.1.101:8000";
+    private final String apiUrl = "https://discover-api.onrender.com";
     private static Socket socket;
 
     private static DataManager dataManager;
@@ -39,7 +39,7 @@ public class SocketManager {
             try {
                 IO.Options options = new IO.Options();
                 options.forceNew = true;
-                socket = IO.socket("http://192.168.1.101:8000", options);
+                socket = IO.socket("https://discover-api.onrender.com", options);
                 socket.on(Socket.EVENT_CONNECT_ERROR, new Emitter.Listener() {
                     @Override
                     public void call(Object... args) {

@@ -42,7 +42,7 @@ public class DetailActivity extends AppCompatActivity {
     private MaterialToolbar toolbar;
     private CircularProgressIndicator siteDetailLoaders;
     private LinearLayout detailContainer;
-    private String apiUrl = "http://192.168.56.1:8000";
+    private String apiUrl = "https://discover-api.onrender.com";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,7 +69,7 @@ public class DetailActivity extends AppCompatActivity {
         siteService = new SiteService(context);
         gson=new Gson();
         toolbar = findViewById(R.id.d_appbar);
-        url = "http://192.168.56.1:8000/sites";
+        url = "https://discover-api.onrender.com/sites";
         siteDetailLoaders = findViewById(R.id.site_detail_loaders);
         detailContainer = findViewById(R.id.detail_container);
         siteDetailLoaders.setVisibility(View.VISIBLE);

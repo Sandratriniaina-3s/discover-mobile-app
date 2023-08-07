@@ -115,7 +115,7 @@ public class PasswordActivity extends AppCompatActivity {
         btnSave = findViewById(R.id.button_save_password);
         dataFromFragment = getIntent().getStringExtra("key");
         userFromFragment = gson.fromJson(dataFromFragment, User.class);
-        url = "http://192.168.56.1:8000/users/";
+        url = "https://discover-api.onrender.com/users/";
         userService = new UserService(context);
         jsonObject = null;
     }

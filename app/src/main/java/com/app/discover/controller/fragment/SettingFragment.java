@@ -143,7 +143,7 @@ public class SettingFragment extends Fragment {
         txEmail = view.findViewById(R.id.textview_email);
         userService = new UserService(context);
         gson = new Gson();
-        url = "http://192.168.56.1:8000/users/";
+        url = "https://discover-api.onrender.com/users/";
         logout = view.findViewById(R.id.setting_logout);
         password = view.findViewById(R.id.setting_password);
         switcher = view.findViewById(R.id.setting_notification);

@@ -91,7 +91,7 @@ public class RegistrationActivity extends AppCompatActivity {
         gson = new Gson();
         jsonObject = null;
         response = null;
-        url = "http://192.168.56.1:8000/users";
+        url = "https://discover-api.onrender.com/users";
         dataManager = DataManager.getInstance(context);
     }
 
