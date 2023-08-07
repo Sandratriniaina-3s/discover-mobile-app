@@ -63,4 +63,26 @@ public class UserService {
 
     }
 
+    public void getUserById(String url, final UserInterface callback){
+        JsonObjectRequest jsonObjectRequest = new JsonObjectRequest(
+                Request.Method.GET,
+                url,
+                null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        callback.handleObjectResponse(response);
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                callback.handleError(error);
+            }
+        }
+        );
+
+        VolleySingleton.getInstance(context).getRequestQueue().add(jsonObjectRequest);
+
+    }
+
 }

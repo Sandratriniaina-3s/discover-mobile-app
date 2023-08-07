@@ -8,8 +8,9 @@ import androidx.fragment.app.FragmentTransaction;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
@@ -20,6 +21,8 @@ import com.app.discover.controller.fragment.VideoFragment;
 import com.app.discover.dal.interfaces.SiteInterface;
 import com.app.discover.dal.service.SiteService;
 import com.app.discover.model.Site;
+import com.google.android.material.appbar.MaterialToolbar;
+import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.android.material.tabs.TabLayout;
 import com.google.gson.Gson;
 import com.squareup.picasso.Picasso;
@@ -30,20 +33,16 @@ import org.json.JSONObject;
 public class DetailActivity extends AppCompatActivity {
 
     private TabLayout tabLayout;
-
     private Context context;
-
     private SiteService siteService;
-
     private Gson gson;
     public static String siteId;
-
     private String url ;
-
     private Site site;
-
-
-    private String apiUrl = "https://discover-api.onrender.com/";
+    private MaterialToolbar toolbar;
+    private CircularProgressIndicator siteDetailLoaders;
+    private LinearLayout detailContainer;
+    private String apiUrl = "http://192.168.56.1:8000";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,15 +54,26 @@ public class DetailActivity extends AppCompatActivity {
 
         getSiteById(url,siteId);
 
-    }
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
+    }
 
     private void init(){
         tabLayout = findViewById(R.id.detail_tab_layout);
         context = this;
         siteService = new SiteService(context);
         gson=new Gson();
-        url = "https://discover-api.onrender.com/sites";
+        toolbar = findViewById(R.id.d_appbar);
+        url = "http://192.168.56.1:8000/sites";
+        siteDetailLoaders = findViewById(R.id.site_detail_loaders);
+        detailContainer = findViewById(R.id.detail_container);
+        siteDetailLoaders.setVisibility(View.VISIBLE);
+        detailContainer.setVisibility(View.GONE);
     }
 
     private void launchFragmentWithData(Fragment fragment,String dataName, String[] data) {
@@ -82,7 +92,6 @@ public class DetailActivity extends AppCompatActivity {
             @Override
             public void handleObjectResponse(JSONObject jsonObject) {
                 site = gson.fromJson(jsonObject.toString(),Site.class);
-
 
                 launchFragmentWithData(new PhotoFragment(),"PHOTOS",site.getPhotos());
 
@@ -109,21 +118,14 @@ public class DetailActivity extends AppCompatActivity {
 
                     @Override
                     public void onTabReselected(TabLayout.Tab tab) {
-                        /*switch (tab.getPosition()){
-                            case 0:
-                                launchFragmentWithData(new PhotoFragment(),"PHOTOS",site.getPhotos());
-                                break;
-                            case 1:
-                                launchFragmentWithData(new VideoFragment(),"VIDEOS",site.getVideos());
-                                break;
-                            case 2:
-                                launchFragmentWithData(new CommentFragment(),"SITES",new String[]{site.get_id()});
-                                break;
-                        }*/
+
                     }
                 });
 
                 setDetailView(site);
+
+                siteDetailLoaders.setVisibility(View.GONE);
+                detailContainer.setVisibility(View.VISIBLE);
             }
 
             @Override
@@ -137,8 +139,6 @@ public class DetailActivity extends AppCompatActivity {
             }
         });
     }
-
-
 
     private void setDetailView(Site site){
         runOnUiThread(new Runnable() {

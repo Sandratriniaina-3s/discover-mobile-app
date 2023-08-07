@@ -15,15 +15,18 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.android.volley.VolleyError;
 import com.app.discover.R;
 import com.app.discover.adapter.SiteAdapter;
+import com.app.discover.controller.DataManager;
 import com.app.discover.controller.SocketManager;
 import com.app.discover.dal.interfaces.SiteInterface;
 import com.app.discover.dal.service.SiteService;
 import com.app.discover.model.Site;
+import com.google.android.material.progressindicator.CircularProgressIndicator;
 import com.google.gson.Gson;
 
 import org.json.JSONArray;
@@ -31,21 +34,8 @@ import org.json.JSONObject;
 
 import io.socket.client.Socket;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link SiteFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class SiteFragment extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
     private SiteService siteService;
     private Site[] sites;
     private RecyclerView recyclerView;
@@ -54,27 +44,18 @@ public class SiteFragment extends Fragment {
     private String url;
     private Gson gson;
     private TextView searchBar;
-
     private Socket socket;
+    private DataManager dataManager;
+    private LinearLayout siteContainer;
+    private CircularProgressIndicator siteLoader;
 
     public SiteFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment SiteFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static SiteFragment newInstance(String param1, String param2) {
         SiteFragment fragment = new SiteFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
         fragment.setArguments(args);
         return fragment;
     }
@@ -82,10 +63,6 @@ public class SiteFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -142,6 +119,11 @@ public class SiteFragment extends Fragment {
         gson = new Gson();
         siteListAdapter = null;
         socket = SocketManager.getSocket();
+        dataManager = DataManager.getInstance(context);
+        siteLoader = view.findViewById(R.id.site_loaders);
+        siteContainer = view.findViewById(R.id.site_container);
+        siteContainer.setVisibility(View.GONE);
+        siteLoader.setVisibility(View.VISIBLE);
     }
 
     private void updateRecyclerView(Context context, Site[] sites){
@@ -161,6 +143,8 @@ public class SiteFragment extends Fragment {
             public void handleArrayResponse(JSONArray jsonArray) {
                 sites = gson.fromJson(jsonArray.toString(), Site[].class);
                 updateRecyclerView(context, sites);
+                siteContainer.setVisibility(View.VISIBLE);
+                siteLoader.setVisibility(View.GONE);
             }
 
             @Override

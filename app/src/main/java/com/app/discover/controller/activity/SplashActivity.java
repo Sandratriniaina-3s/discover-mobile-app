@@ -7,17 +7,20 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.Bundle;
 import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import com.app.discover.R;
 import com.app.discover.controller.DataManager;
+import com.app.discover.model.Setting;
 import com.google.android.material.snackbar.Snackbar;
+
+import java.io.File;
 
 public class SplashActivity extends AppCompatActivity {
 
     private static final int SPLASH_DELAY = 3000;
     private Context context;
     private DataManager dataManager;
+    private String fileName = "appsetting";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,11 +35,19 @@ public class SplashActivity extends AppCompatActivity {
                 @Override
                 public void run() {
 
-                    if(dataManager.getSetting() == null){
-                        startNewActivity(LoginActivity.class);
+                    if(isPrivateFileExists(context, fileName)){
+                        if(dataManager.getSetting().getInformation().getUserId() == ""){
+                            startNewActivity(LoginActivity.class);
+                        }
+                        else {
+                            startNewActivity(MainActivity.class);
+                        }
                     }
-                    else {
-                        startNewActivity(MainActivity.class);
+                    else{
+                        Setting setting = new Setting();
+                        setting.setNotificationState(true);
+                        dataManager.saveSetting(setting, context);
+                        startNewActivity(LoginActivity.class);
                     }
 
                 }
@@ -50,6 +61,11 @@ public class SplashActivity extends AppCompatActivity {
                         }
                     }).show();
         }
+    }
+
+    public static boolean isPrivateFileExists(Context context, String fileName) {
+        File file = new File(context.getFilesDir(), fileName);
+        return file.exists();
     }
 
     private boolean isNetworkAvailable() {

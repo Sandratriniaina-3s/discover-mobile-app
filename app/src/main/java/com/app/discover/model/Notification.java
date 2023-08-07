@@ -7,6 +7,8 @@ public class Notification {
     private String commentId;
     private String createdAt;
     private String[] readBy;
+    private String content;
+    private String siteId;
 
     public String getSiteId() {
         return siteId;
@@ -16,8 +18,6 @@ public class Notification {
         this.siteId = siteId;
     }
 
-    private String siteId;
-
     public String getContent() {
         return content;
     }
@@ -25,8 +25,6 @@ public class Notification {
     public void setContent(String content) {
         this.content = content;
     }
-
-    private String content;
 
     public String get_id() {
         return _id;

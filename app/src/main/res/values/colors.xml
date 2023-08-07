@@ -4,4 +4,5 @@
     <color name="white">#FFFFFFFF</color>
     <color name="primary">#673AB7</color>
     <color name="gray">#FFF4F4F4</color>
+    <color name="card_stroke_color">#DAD9D9</color>
 </resources>

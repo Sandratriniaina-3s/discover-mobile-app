@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import com.android.volley.VolleyError;
@@ -15,6 +14,7 @@ import com.app.discover.controller.DataManager;
 import com.app.discover.dal.interfaces.UserInterface;
 import com.app.discover.dal.service.UserService;
 import com.app.discover.model.Information;
+import com.app.discover.model.Setting;
 import com.app.discover.model.User;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.android.material.textfield.TextInputEditText;
@@ -108,7 +108,9 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void handleObjectResponse(JSONObject jsonObject) {
                 response = gson.fromJson(jsonObject.toString(), Information.class);
-                dataManager.saveSetting(response, context);
+                Setting setting = dataManager.getSetting();
+                setting.setInformation(response);
+                dataManager.saveSetting(setting, context);
                 startNewActivity(MainActivity.class);
             }
 

@@ -3,7 +3,16 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".controller.fragment.NotificationFragment">
+
+    <com.google.android.material.progressindicator.CircularProgressIndicator
+        android:id="@+id/notification_loaders"
+        android:layout_width="170dp"
+        android:layout_height="162dp"
+        android:layout_gravity="center"
+        android:indeterminate="true"
+        app:indicatorSize="180dp" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/notification_recycler_view"

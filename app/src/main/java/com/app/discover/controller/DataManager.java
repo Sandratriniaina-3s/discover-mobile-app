@@ -1,8 +1,6 @@
 package com.app.discover.controller;
 
 import android.content.Context;
-
-import com.app.discover.model.Information;
 import com.app.discover.model.Setting;
 import com.app.discover.utils.Serializer;
 
@@ -39,8 +37,8 @@ public final class DataManager {
         this.setting = setting;
     }
 
-    public void saveSetting(Information information, Context context){
-        setting = new Setting(information);
+    public void saveSetting(Setting newSetting, Context context){
+        setting = newSetting;
         Serializer.serialize(filename, setting, context);
     }
 
